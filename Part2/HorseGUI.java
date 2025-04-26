@@ -105,6 +105,10 @@ public class HorseGUI
         confidence += 0.05;
     }
 
+    public void setDistanceTravelled(int distanceTravelled) {
+        this.distance = distanceTravelled;
+    }
+
     public HorseStatistics getStats() {
         return stats;
     }

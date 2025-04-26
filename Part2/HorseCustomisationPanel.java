@@ -12,10 +12,6 @@ public class HorseCustomisationPanel extends JPanel {
     private SelectList saddleList;
     
     public HorseCustomisationPanel() {
-        // JFrame frame = new JFrame("Horse Customisation");
-        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // frame.setSize(400, 300);
-        // frame.setLayout(new BorderLayout());
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -33,18 +29,6 @@ public class HorseCustomisationPanel extends JPanel {
         add(Box.createVerticalStrut(10));
         add(saddleList);
 
-        // JButton submitButton = new JButton("Submit");
-
-        // submitButton.addActionListener(e -> {
-
-        //     String appearance = getHorseAppearanceString();
-
-        //     frame.dispose();
-        // });
-
-        // frame.add(panel, BorderLayout.CENTER);
-        // frame.add(submitButton, BorderLayout.SOUTH);
-        // frame.setVisible(true);
     }
 
     public String getHorseAppearanceString() {

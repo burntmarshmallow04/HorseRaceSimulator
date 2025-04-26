@@ -10,6 +10,8 @@ import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.sound.midi.Track;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +34,7 @@ public class GUI {
     private HorseDescription[] horseDescriptionPanels;
     private JLabel winnerLabel;
     private CustomButton startRaceButton;
+    private String selectedTrackShape;
 
     public GUI() {
         frame = new JFrame("Horse Race Simulator");
@@ -51,11 +54,13 @@ public class GUI {
         JPanel panel = new JPanel(new GridLayout(4, 1, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     
-        // Create a new HorseCustomisationPanel to allow customization of horses
+        //horse and track customisation panels
         HorseCustomisationPanel customisationPanel = new HorseCustomisationPanel();
+        TrackCustomisationPanel trackCustomisationPanel = new TrackCustomisationPanel();
     
         // Add the customisation panel to the main panel
         panel.add(customisationPanel);
+        panel.add(trackCustomisationPanel);
     
         // Submit button to apply customisations
         JButton submitButton = new JButton("Next");
@@ -71,6 +76,8 @@ public class GUI {
             // Generate the horse appearance string
             String appearance = customisationPanel.getHorseAppearanceString();
     
+            String trackShape = trackCustomisationPanel.getTrackShape();
+            selectedTrackShape = trackShape;
             // Here, you would load the images for the horses based on the appearance string.
             BufferedImage horseImage = loadImageForAppearance(appearance);
             BufferedImage horseFallenImage = loadImageForFallenAppearance(appearance);
@@ -84,6 +91,8 @@ public class GUI {
     
             // Close the customisation panel
             frame.dispose();
+
+            startRace();
         });
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -119,6 +128,32 @@ public class GUI {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private void startRace() {
+        racePanel = new JPanel(new BorderLayout());
+        JPanel raceTrackPanel = new JPanel(new GridLayout(3, 1)); // Assuming 3 horses
+
+        // Create lane panels for each horse
+        for (int i = 0; i < horses.length; i++) {
+            LanePanel lanePanel = new LanePanel(horses[i], 1000, selectedTrackShape); // Assuming 1000 as race length
+            raceTrackPanel.add(lanePanel);
+        }
+
+        racePanel.add(raceTrackPanel, BorderLayout.CENTER);
+        frame.add(racePanel);
+        frame.revalidate();
+        frame.repaint();
+
+        Timer raceTimer = new Timer(30, e -> {
+            for (Component comp : raceTrackPanel.getComponents()) {
+                if (comp instanceof LanePanel) {
+                    LanePanel lanePanel = (LanePanel) comp;
+                    lanePanel.updateLane(); // Update horse positions in each lane
+                }
+            }
+        });
+        raceTimer.start();
     }
     
     
