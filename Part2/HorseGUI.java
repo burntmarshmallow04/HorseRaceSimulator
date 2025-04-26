@@ -109,7 +109,7 @@ public class HorseGUI
         return stats;
     }
 
-    public void addStats(int raceLength, int raceTime) {
-        stats.addStats(raceLength, distance, raceTime, fallen);
+    public void addStats(int raceLength, int finishingTime) {
+        stats.addStats(raceLength, distance, finishingTime, fallen);
     }
 }

@@ -8,18 +8,14 @@ public class HorseStatistics {
         raceHistory = new ArrayList<>();
     }
 
-    public void addStats(int raceLength, int distanceTravelled, int raceTime, boolean fell) {
-        double averageSpeed = (double) distanceTravelled / ((double) raceTime / 10.0);
-        boolean won = false;
-
-        if (distanceTravelled == raceLength) {
-            won = true;
-        }
-
-        RaceStats stats = new RaceStats(averageSpeed, won, fell);
+    public void addStats(int raceLength, int distanceTravelled, int finishingTime, boolean fell) {
+        double averageSpeed = (double) distanceTravelled / ((double) finishingTime / 10.0);
+        RaceStats stats = new RaceStats(averageSpeed, finishingTime, fell);
         raceHistory.add(stats);
     }
 
+
+    //average speed of horse
     public double getAverageSpeed() {
         if (raceHistory.isEmpty()){
             return 0.0;
@@ -32,38 +28,40 @@ public class HorseStatistics {
         return totalSpeed / raceHistory.size();
     }
 
-    public String getAverageSpeedAsString() {
+    public String getAverageSpeedString() {
         double averageSpeed = Math.round(getAverageSpeed() * 10.0) / 10.0;
         return averageSpeed + " m/s";
     }
 
+    //finishing time of horse
+    public double getFinishingTime() {
+        if (raceHistory.isEmpty()){
+            return 0.0;
+        }
+
+        double totalFinishingTime = 0.0;
+        for (RaceStats stats : raceHistory) {
+            totalFinishingTime += stats.finishingTime;
+        }
+        return totalFinishingTime / raceHistory.size();
+    }
+
+    public String getFinishingTimeString() {
+        double finishingTime = Math.round(getFinishingTime() * 10.0) / 10.0;
+        return finishingTime + " seconds";
+    }
+    
+
+    //win rate of horse
     public double getWinRate() {
-        if (raceHistory.isEmpty()) return 0.0;
-
         int wins = 0;
+        int totalRaces = raceHistory.size();
+
         for (RaceStats stats : raceHistory) {
-            if (stats.won) wins++;
+            if (!stats.fell) {
+                wins++;
+            }
         }
-        return (double) wins / raceHistory.size();
-    }
-
-    public String getWinPercentageAsString() {
-        int winRatio = (int) Math.round(getWinRate() * 100.0);
-        return winRatio + "%";
-    }
-
-    public double getFallRate() {
-        if (raceHistory.isEmpty()) return 0.0;
-
-        int falls = 0;
-        for (RaceStats stats : raceHistory) {
-            if (stats.fell) falls++;
-        }
-        return (double) falls / raceHistory.size();
-    }
-
-    public String getFallPercentageAsString() {
-        int fallRatio = (int) Math.round(getFallRate() * 100.0);
-        return fallRatio + "%";
+        return (double) wins / (double) totalRaces;
     }
 }

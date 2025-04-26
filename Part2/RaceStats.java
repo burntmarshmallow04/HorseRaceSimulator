@@ -1,13 +1,14 @@
 package Part2;
 
+//class for horse statistics
 public class RaceStats {
     double averageSpeed;
-    boolean won;
+    double finishingTime;
     boolean fell;
 
-    public RaceStats(double averageSpeed, boolean won, boolean fell) {
+    public RaceStats(double averageSpeed, double finishingTime, boolean fell) {
         this.averageSpeed = averageSpeed;
-        this.won = won;
+        this.finishingTime = finishingTime;
         this.fell = fell;
     }
 } 
