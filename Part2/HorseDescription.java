@@ -17,11 +17,6 @@ public class HorseDescription extends JPanel{
         setLayout(new GridLayout(5, 1));
         setBorder(new EmptyBorder(10, 10, 10, 10));
         setBackground(Color.LIGHT_GRAY);
-        
-        JLabel horseNameLabel = new JLabel("Horse Name: " + horse.getName());
-        horseNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        horseNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        add(horseNameLabel);
 
         confidenceLabel = new JLabel("Confidence: " + horse.getConfidence());
         confidenceLabel.setFont(new Font("Arial", Font.PLAIN, 14));

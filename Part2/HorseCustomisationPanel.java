@@ -1,88 +1,95 @@
 package Part2;
 
-
 import javax.swing.*;
 import java.awt.*;
 
-//This class is for customising the horse symbol, breed, colour and saddle
 public class HorseCustomisationPanel extends JPanel {
-    private SelectList symbolList;
-    private SelectList breedList;
-    private SelectList colourList;
-    private SelectList saddleList;
-    
+    private JComboBox<String> horseNameList;
+    private JComboBox<String> symbolList;
+    private JComboBox<String> breedList;
+    private JComboBox<String> equipmentList;
+
     public HorseCustomisationPanel() {
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(25, 0, 0, 0));
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        add(contentPanel, BorderLayout.CENTER);
 
-        symbolList = new SelectList("Select Horse Symbol", new String[]{"\u265E", "\uD83D\uDC34", "\uD83E\uDD84"});
-        breedList = new SelectList("Select Horse Breed", new String[]{"Arabian", "Thoroughbred", "Quarter Horse"});
-        colourList = new SelectList("Select Horse Colour", new String[]{"Brown", "Black", "White"});
-        saddleList = new SelectList("Select Saddle", new String[]{"No Saddle", "Blue Saddle", "Red Saddle"});
+        //name 
+        JPanel field1Panel = new JPanel();
+        contentPanel.add(field1Panel);
 
-        add(symbolList);
-        add(Box.createVerticalStrut(10));  // Add some vertical space between components
-        add(breedList);
-        add(Box.createVerticalStrut(10));
-        add(colourList);
-        add(Box.createVerticalStrut(10));
-        add(saddleList);
+        JLabel horseNameLabel = new JLabel("Horse Name:");
+        horseNameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        field1Panel.add(horseNameLabel);
 
+        horseNameList = new JComboBox<>(new String[] {"PIPPI LOCKSTOCKING", "EL JEFE", "KOKOMO"});
+        horseNameList.setSelectedItem("PIPPI LOCKSTOCKING");
+        field1Panel.add(horseNameList);
+
+
+        //symbol
+        JPanel field2Panel = new JPanel();
+        contentPanel.add(field2Panel);
+
+        JLabel symbolLabel = new JLabel("Symbol:");
+        symbolLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        field2Panel.add(symbolLabel);
+
+        symbolList = new JComboBox<>(new String[] {"\u2658", "\u265E", "\u1F434"});
+        symbolList.setSelectedItem("\u2658");
+        field2Panel.add(symbolList);
+
+        // JPanel field2Panel = new JPanel();
+        // contentPanel.add(field2Panel);
+
+        // JLabel colourLabel = new JLabel("Colour:");
+        // colourLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        // field2Panel.add(colourLabel);
+
+        // colourList = new SelectList(new String[] {"Orange", "Black", "White"});
+        // colourList.setSelectedItem(defaultColour);
+        // field2Panel.add(colourList);
+
+        //equipment
+        JPanel field3Panel = new JPanel();
+        contentPanel.add(field3Panel);
+
+        JLabel equipmentLabel = new JLabel("Equipment:");
+        equipmentLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        field3Panel.add(equipmentLabel);
+
+        equipmentList = new JComboBox<>(new String[] {"Saddle", "Hat", "Horseshoe"});
+        equipmentList.setSelectedItem("Saddle");
+        field3Panel.add(equipmentList);
+
+        //breed
+        JPanel field4Panel = new JPanel();
+        contentPanel.add(field4Panel);
+
+        JLabel breedLabel = new JLabel("Breed:");
+        breedLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        field4Panel.add(breedLabel);
+
+        breedList = new JComboBox<>(new String[] {"Arabian", "Thoroughbred", "Quarter Horse"});
+        breedList.setSelectedItem("Arabian");
+        field4Panel.add(breedList);
     }
 
-    public String getHorseAppearanceString() {
-        String breed = (String) breedList.getSelectedItem();
-        String symbol = (String) symbolList.getSelectedItem();
-        String colour = (String) colourList.getSelectedItem();
-        String saddle = (String) saddleList.getSelectedItem();
-        String horseAppearanceString;
-
-        if (breed.equals("Arabian")) {
-            horseAppearanceString = "_arabian";
-        } else if (breed.equals("Thoroughbred")){
-            horseAppearanceString = "_thoroughbred";
-        } else {
-            horseAppearanceString = "_quarter_horse";
-        }
-
-        if (symbol.equals("\u265E")) {
-            horseAppearanceString += "_knight";
-        } else if (symbol.equals("\uD83D\uDC34")){
-            horseAppearanceString += "_horse";
-        } else {
-            horseAppearanceString += "_unicorn";
-        }
-
-        if (colour.equals("Brown")) {
-            horseAppearanceString += "_brown";
-        } else if (colour.equals("Black")){
-            horseAppearanceString += "_black";
-        } else {
-            horseAppearanceString += "_white";
-        }   
-
-        if (saddle.equals("No Saddle")) {
-            horseAppearanceString += "_no_saddle";
-        } else if (saddle.equals("Blue Saddle")){
-            horseAppearanceString += "_blue_saddle";
-        } else {
-            horseAppearanceString += "_red_saddle";
-        }
-
-        return horseAppearanceString;
+    public String getHorseName() {
+        return (String) horseNameList.getSelectedItem();
     }
 
-    public String getSymbol() {
-        return symbolList.getSelectedItem();
+    public String getHorseSymbol() {
+        return (String) symbolList.getSelectedItem();
     }
-    public String getBreed() {
-        return breedList.getSelectedItem();
+    public String getHorseBreed() {
+        return (String) breedList.getSelectedItem();
     }
-    public String getColour() {
-        return colourList.getSelectedItem();
-    }
-    public String getSaddle() {
-        return saddleList.getSelectedItem();
+
+    public String getHorseEquipment() {
+        return (String) equipmentList.getSelectedItem();
     }
 }

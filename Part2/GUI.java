@@ -1,164 +1,141 @@
 package Part2;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
-import Part1.Horse;
-import Part1.Race;
-
 import java.awt.*;
-import java.util.List;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
-import javax.sound.midi.Track;
-
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class GUI {
     private final JFrame frame;
     private final JPanel panel;
 
-    private final double initialConfidence = 0.3;
-    private final HorseGUI[] horses = new HorseGUI[3];
-    private final String[] horseNames = {"Horse 1", "Horse 2", "Horse 3"};
-    private final String[] horseColours = {"Brown", "Brown", "Brown"};
-    private final String[] horseSaddles = {"No Saddle", "No Saddle", "No Saddle"};
-
-    private int raceNummber = 1;
-    private Race race;
-
-    private JPanel racePanel;
-    //private LanePanel[] lanePanels;
-    private HorseDescription[] horseDescriptionPanels;
-    private JLabel winnerLabel;
-    private CustomButton startRaceButton;
+    private final HorseGUI[] horses = new HorseGUI[4];
     private String selectedTrackShape;
+
+    private RaceGUI race;
+    private Timer raceTimer;
 
     public GUI() {
         frame = new JFrame("Horse Race Simulator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 700);
         frame.setResizable(false);
-        frame.setVisible(true);
 
         panel = new JPanel(new GridLayout(0, 1));
         frame.add(panel);
     }
 
-    public void HorseCustomisation(){
+    public void TrackAndWeatherCustomisation() {
+        // Create a new panel for track and weather customizations
+        JPanel trackAndWeatherPanel = new JPanel();
+        trackAndWeatherPanel.setLayout(new GridLayout(3, 1, 10, 10));  // Layout for track and weather panels
+        trackAndWeatherPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  // Padding
+    
+        // Create Track Customization Panel and Weather Panel
+        TrackCustomisationPanel trackCustomisationPanel = new TrackCustomisationPanel();
+        WeatherPanel weatherPanel = new WeatherPanel();
+    
+        // Add the panels to the trackAndWeatherPanel
+        trackAndWeatherPanel.add(trackCustomisationPanel);
+        trackAndWeatherPanel.add(weatherPanel);
+    
+        // Submit button for track and weather customization
+        JButton nextButton = new JButton("Next");
+        nextButton.setPreferredSize(new Dimension(150, 40));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(nextButton);
+        trackAndWeatherPanel.add(buttonPanel);
+    
+        // Action for when the "Next" button is clicked
+        nextButton.addActionListener(e -> {
+            // Get the track customisation details
+            String trackShape = trackCustomisationPanel.getTrackShape();
+            int laneCount = trackCustomisationPanel.getLaneCount();
+            selectedTrackShape = trackShape;
+    
+            // Clear the frame and setup the next step
+            frame.getContentPane().removeAll();
+            frame.revalidate();
+            frame.repaint();
+    
+            // Call Race Customisation with the lane count dynamically updated
+            RaceCustomisation(laneCount);
+        });
+    
+        // Add the panel to the frame and refresh the display
+        frame.add(trackAndWeatherPanel, BorderLayout.CENTER);
+        frame.revalidate();
+        frame.repaint();
+        frame.setVisible(true);
+    }
+
+    public void RaceCustomisation(int laneCount) {
         frame.getContentPane().removeAll();  // Clear the current panel (if any)
         frame.repaint();
     
-        JPanel panel = new JPanel(new GridLayout(4, 1, 10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        // Clear and set up the main panel for horse customization only
+        panel.removeAll();
+        panel.setLayout(new BorderLayout()); 
+        JPanel horseCustomisationPanel = new JPanel();
+        horseCustomisationPanel.setLayout(new GridLayout(1, laneCount, 10, 10));  // Adjust grid based on selected lane count
+        horseCustomisationPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  // Padding
     
-        //horse and track customisation panels
-        HorseCustomisationPanel customisationPanel = new HorseCustomisationPanel();
-        TrackCustomisationPanel trackCustomisationPanel = new TrackCustomisationPanel();
+        // Create customization panels dynamically based on lane count
+        for (int i = 0; i < laneCount; i++) {
+            HorseCustomisationPanel customisationPanel = new HorseCustomisationPanel();
+            horseCustomisationPanel.add(customisationPanel);
+        }
     
-        // Add the customisation panel to the main panel
-        panel.add(customisationPanel);
-        panel.add(trackCustomisationPanel);
+        panel.add(horseCustomisationPanel, BorderLayout.CENTER);
     
-        // Submit button to apply customisations
-        JButton submitButton = new JButton("Next");
-        submitButton.setPreferredSize(new Dimension(150, 40));
+        // Submit button for horse customization
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton nextButton = new JButton("Next");
+        nextButton.setPreferredSize(new Dimension(150, 40));
+        buttonPanel.add(nextButton);
     
-        submitButton.addActionListener(e -> {
-            // Get the customisation values from the HorseCustomisationPanel
-            String symbol = customisationPanel.getSymbol();
-            String breed = customisationPanel.getBreed();
-            String colour = customisationPanel.getColour();
-            String saddle = customisationPanel.getSaddle();
+        panel.add(buttonPanel, BorderLayout.SOUTH);
     
-            // Generate the horse appearance string
-            String appearance = customisationPanel.getHorseAppearanceString();
+        // Action for when the "Next" button is clicked
+        nextButton.addActionListener(e -> {
+            // Initialize the horse objects based on the customized details
+            for (int i = 0; i < laneCount; i++) {
+                HorseCustomisationPanel panel = (HorseCustomisationPanel) horseCustomisationPanel.getComponent(i);
+                String name = panel.getHorseName();
+                String symbol = panel.getHorseSymbol();
+                String breed = panel.getHorseBreed();
+                String equipment = panel.getHorseEquipment();
     
-            String trackShape = trackCustomisationPanel.getTrackShape();
-            selectedTrackShape = trackShape;
-            // Here, you would load the images for the horses based on the appearance string.
-            BufferedImage horseImage = loadImageForAppearance(appearance);
-            BufferedImage horseFallenImage = loadImageForFallenAppearance(appearance);
+                // Create HorseGUI objects dynamically for the selected lanes
+                horses[i] = new HorseGUI(name, symbol, breed, equipment);
+            }
     
-            // Create HorseGUI objects instead of Horse objects
-            horses[0] = new HorseGUI(symbol.charAt(0), horseNames[0], initialConfidence, horseImage, horseFallenImage);
-            horses[1] = new HorseGUI(symbol.charAt(1), horseNames[1], initialConfidence, horseImage, horseFallenImage);
-            horses[2] = new HorseGUI(symbol.charAt(2), horseNames[2], initialConfidence, horseImage, horseFallenImage);
-    
-            // You might want to do something with the appearance string here, for example, set the image paths or other properties based on the appearance string.
-    
-            // Close the customisation panel
-            frame.dispose();
+            // Proceed to the next step: Track and Weather Customization
+            frame.getContentPane().removeAll();
+            frame.revalidate();
+            frame.repaint();
 
-            startRace();
+            setupRacePanel(laneCount);
         });
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonPanel.add(submitButton);
-    
-        // Add the submit button to the panel
-        panel.add(buttonPanel);
-
-        // Add the main panel to the frame
+        // Add the panel to the frame and refresh the display
         frame.add(panel, BorderLayout.CENTER);
-        frame.setVisible(true);
-    }
-    
-    // Helper method to load the image for the horse's appearance
-    private BufferedImage loadImageForAppearance(String appearance) {
-        try {
-            // You would load the image file based on the appearance string here
-            // Replace the path with the actual image file path based on your project structure
-            return ImageIO.read(new File("path_to_images/" + appearance + ".png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    
-    // Helper method to load the fallen image for the horse's appearance
-    private BufferedImage loadImageForFallenAppearance(String appearance) {
-        try {
-            // You would load the fallen image file based on the appearance string here
-            // Replace the path with the actual fallen image file path based on your project structure
-            return ImageIO.read(new File("path_to_images/" + appearance + "_fallen.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        frame.revalidate();
+        frame.repaint();
     }
 
-    private void startRace() {
-        racePanel = new JPanel(new BorderLayout());
-        JPanel raceTrackPanel = new JPanel(new GridLayout(3, 1)); // Assuming 3 horses
-
-        // Create lane panels for each horse
-        for (int i = 0; i < horses.length; i++) {
-            LanePanel lanePanel = new LanePanel(horses[i], 1000, selectedTrackShape); // Assuming 1000 as race length
-            raceTrackPanel.add(lanePanel);
+    private void setupRacePanel(int laneCount) {
+        race = new RaceGUI(frame,50, laneCount);  // Example race length of 1000
+        for (int i = 0; i < laneCount; i++) {
+            race.addHorse(horses[i]);  // Add each horse to the RaceGUI
         }
 
-        racePanel.add(raceTrackPanel, BorderLayout.CENTER);
-        frame.add(racePanel);
+        // Add the existing race panel to the frame (instead of creating a new one)
+        frame.getContentPane().removeAll();
+        frame.add(race.getRacePanel(), BorderLayout.CENTER);  // Use getRacePanel() to retrieve the pre-built race panel
         frame.revalidate();
         frame.repaint();
 
-        Timer raceTimer = new Timer(30, e -> {
-            for (Component comp : raceTrackPanel.getComponents()) {
-                if (comp instanceof LanePanel) {
-                    LanePanel lanePanel = (LanePanel) comp;
-                    lanePanel.updateLane(); // Update horse positions in each lane
-                }
-            }
-        });
-        raceTimer.start();
+        // Start the race
+        race.startRace();
     }
-    
-    
-    
 }
-
-
-

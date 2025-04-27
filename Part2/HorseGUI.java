@@ -1,7 +1,5 @@
 package Part2;
 
-import java.awt.image.BufferedImage;
-
 /**
  * Write a description of class Horse here.
  * 
@@ -12,38 +10,30 @@ public class HorseGUI
 {
     //Fields of class Horse
     private String name;
-    private char symbol;
+    private String breed;
+    private String symbol;
     private int distance;
     private double confidence;
     private boolean fallen;
-    private BufferedImage image;
-    private BufferedImage fallenImage;
+    private String equipment;
+
     private HorseStatistics stats;
 
     //Constructor of class Horse
     /**
      * Constructor for objects of class Horse
      */
-    public HorseGUI(char horseSymbol, String horseName, double horseConfidence, BufferedImage horseImage, BufferedImage horseFallenImage)
-    {
-        this.image = horseImage;
-        this.fallenImage = horseFallenImage;
+    public HorseGUI(String horseName, String horseSymbol, String horseBreed, String horseEquipment) {
         this.name = horseName;
         this.symbol = horseSymbol;
-        this.confidence = horseConfidence;
+        this.breed = horseBreed;
+        this.confidence = 0.5;
         this.distance = 0;
         this.fallen = false;
         this.stats = new HorseStatistics();
+        this.equipment = horseEquipment;
     }
     
-    //Other methods of class Horse
-    public BufferedImage getImage(){
-        return image;
-    }
-
-    public BufferedImage getFallenImage(){
-        return fallenImage;
-    }
 
     public void fall()
     {
@@ -56,6 +46,11 @@ public class HorseGUI
         }
     }
     
+    public String getName()
+    {
+        return name;
+    }
+
     public double getConfidence()
     {
         return confidence;
@@ -66,14 +61,22 @@ public class HorseGUI
         return distance;
     }
     
-    public String getName()
+    public String getBreed()
     {
-        return name;
+        return breed;
     }
     
-    public char getSymbol()
+    public String getSymbol()
     {
         return symbol;
+    }
+    
+    // public String getColour() {
+    //     return colour;
+    // }
+    
+    public String getEquipment() {
+        return equipment;
     }
     
     public void goBackToStart()
@@ -96,10 +99,19 @@ public class HorseGUI
         confidence = newConfidence;
     }
     
-    public void setSymbol(char newSymbol)
+    public void setSymbol(String newSymbol)
     {
         symbol = newSymbol;
     }
+
+    // public void setColour(String colour) {
+    //     this.colour = colour;
+    // }
+    
+    public void setEquipment(String equipment) {
+        this.equipment = equipment;
+    }
+    
 
     public void setWinConfidence(){
         confidence += 0.05;

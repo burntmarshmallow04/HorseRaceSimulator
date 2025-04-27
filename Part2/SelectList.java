@@ -9,15 +9,17 @@ public class SelectList extends JPanel {
     private JComboBox<String> comboBox;
 
     public SelectList(String labelText, String[] items) {
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(0, 0));
 
         label = new JLabel(labelText);
         label.setFont(new Font("Arial", Font.PLAIN, 14));
+        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         add(label, BorderLayout.NORTH); 
 
         comboBox = new JComboBox<>(items);
         comboBox.setFont(new Font("Arial", Font.PLAIN, 16));
         comboBox.setFocusable(false);
+        comboBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); 
         add(comboBox, BorderLayout.CENTER); 
     }
 
