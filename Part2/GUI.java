@@ -23,8 +23,8 @@ public class GUI {
     //start with customisation of track and weather
     public void startRaceGUI() {
         JPanel trackAndWeatherPanel = new JPanel();
-        trackAndWeatherPanel.setLayout(new GridLayout(3, 1, 10, 10));  // Layout for track and weather panels
-        trackAndWeatherPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  // Padding
+        trackAndWeatherPanel.setLayout(new BoxLayout(trackAndWeatherPanel, BoxLayout.Y_AXIS));  // BoxLayout for vertical stacking
+        trackAndWeatherPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  
     
         //track and weather panels
         TrackCustomisationPanel trackCustomisationPanel = new TrackCustomisationPanel();
@@ -44,13 +44,14 @@ public class GUI {
             String trackShape = trackCustomisationPanel.getTrackShape();
             String selectedWeather = weatherPanel.getWeather();
             int laneCount = trackCustomisationPanel.getLaneCount();
+            int trackLength = trackCustomisationPanel.getRaceLength();
             selectedTrackShape = trackShape;
     
             frame.getContentPane().removeAll();
             frame.revalidate();
             frame.repaint();
     
-            RaceCustomisation(laneCount, selectedWeather);
+            RaceCustomisation(laneCount, selectedWeather, trackLength);
         });
     
         frame.add(trackAndWeatherPanel, BorderLayout.CENTER);
@@ -60,7 +61,7 @@ public class GUI {
     }
 
     //customisation of horses
-    public void RaceCustomisation(int laneCount, String selectedWeather) {
+    public void RaceCustomisation(int laneCount, String selectedWeather, int trackLength) {
         frame.getContentPane().removeAll();  // Clear the current panel (if any)
         frame.repaint();
     
@@ -103,7 +104,7 @@ public class GUI {
             frame.revalidate();
             frame.repaint();
 
-            setupRacePanel(laneCount, selectedWeather);
+            setupRacePanel(laneCount, selectedWeather, trackLength);
         });
 
         frame.add(panel, BorderLayout.CENTER);
@@ -111,8 +112,8 @@ public class GUI {
         frame.repaint();
     }
 
-    private void setupRacePanel(int laneCount, String selectedWeather) {
-        race = new RaceGUI(frame,50, laneCount, selectedWeather);
+    private void setupRacePanel(int laneCount, String selectedWeather, int trackLength) {
+        race = new RaceGUI(frame,trackLength, laneCount, selectedWeather);
         for (int i = 0; i < laneCount; i++) {
             race.addHorse(horses[i]);  //each horse added to RaceGUI
         }
