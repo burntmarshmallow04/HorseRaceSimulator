@@ -20,8 +20,8 @@ public class GUI {
         frame.add(panel);
     }
 
-    //customisation of track and weather
-    public void TrackAndWeatherCustomisation() {
+    //start with customisation of track and weather
+    public void startRaceGUI() {
         JPanel trackAndWeatherPanel = new JPanel();
         trackAndWeatherPanel.setLayout(new GridLayout(3, 1, 10, 10));  // Layout for track and weather panels
         trackAndWeatherPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  // Padding

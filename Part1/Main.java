@@ -1,8 +1,8 @@
 package Part1;
 
-public class StartRace {
+public class Main {
     public static void main(String[] args) {
-        Race myRace = new Race(30); // Race of length 30
+        Race myRace = new Race(30); 
 
         Horse h1 = new Horse('\u2658', "PIPPI LONGSTOCKING", 0.8);
         Horse h2 = new Horse('\u2655', "KOKOMO", 0.4);

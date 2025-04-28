@@ -1,8 +1,8 @@
 package Part2;
 
-public class startRaceGUI {
+public class MainGUI {
     public static void main(String[] args) {
         GUI gui = new GUI();
-        gui.TrackAndWeatherCustomisation();
+        gui.startRaceGUI();
     }
 }
