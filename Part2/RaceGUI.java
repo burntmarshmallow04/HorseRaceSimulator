@@ -33,9 +33,10 @@ public class RaceGUI {
     
         //weather label
         weatherLabel = new JLabel("Weather: " + getWeatherIcon(), SwingConstants.CENTER);
-        weatherLabel.setFont(new Font("Arial", Font.PLAIN, 18)); // Big emoji
+        weatherLabel.setFont(new Font("Arial", Font.PLAIN, 20)); // Big emoji
         centerPanel.add(weatherLabel);
         centerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+
         //lane panel
         for (int i = 0; i < numHorses; i++) {
             JLabel laneLabel = new JLabel("Lane " + (i + 1) + ": ");
@@ -47,6 +48,32 @@ public class RaceGUI {
         JPanel centerWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
         centerWrapper.add(centerPanel);
         racePanel.add(centerWrapper, BorderLayout.CENTER);
+
+        // Legend panel
+        JPanel legendPanel = new JPanel();
+        legendPanel.setLayout(new BoxLayout(legendPanel, BoxLayout.Y_AXIS));
+        legendPanel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createTitledBorder("Legend"),
+            BorderFactory.createEmptyBorder(10, 20, 10, 20) // top, left, bottom, right padding
+        ));
+        legendPanel.setPreferredSize(new Dimension(400, 100)); 
+
+        // Add more legend info here (example):
+        JLabel runningLabel = new JLabel("Breed: A-Arabian, T-Thouroughbred, Q-Quarter Horse");
+        JLabel equipmentLabel = new JLabel("Equipment: 𐚁-Hat, 𓂬-Saddle, ℧-Horseshoe");
+        JLabel fallenLabel = new JLabel("⛌ - Fallen");
+
+        legendPanel.add(runningLabel);
+        legendPanel.add(fallenLabel);
+        legendPanel.add(equipmentLabel);
+
+        // Add a bit of vertical space
+        legendPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        // Now add the legendPanel to racePanel (CENTER too, but AFTER lanes)
+        centerPanel.add(Box.createRigidArea(new Dimension(0, 20))); // spacing after lanes
+        centerPanel.add(legendPanel);
+
     
         //statistics and reset buttons
         JPanel bottomPanel = new JPanel();
@@ -230,7 +257,7 @@ public class RaceGUI {
             // Append individual stats
             stats.append(horse.getName()).append(":\n")
                 .append("Average Speed: ").append(String.format("%.2f", speed)).append(" m/s\n")
-                .append("Finish Time: ").append(String.format("%.2f", finishTime / 1000.0)).append(" seconds\n") // if time is in ms
+                .append("Finish Time: ").append(String.format("%.2f", finishTime / 1000.0)).append(" seconds\n")
                 .append("Wins: ").append((int)wins).append("\n")
                 .append("Win Rate: ").append(String.format("%.2f", (wins / horses.size()) * 100)).append("%\n\n");
         }

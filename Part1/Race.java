@@ -90,6 +90,11 @@ public class Race
             {
                 finished = true;
             }
+
+            if (lane1Horse.hasFallen() && lane2Horse.hasFallen() && lane3Horse.hasFallen())
+            {
+                finished = true;
+            }
            
             //wait for 100 milliseconds
             try{ 

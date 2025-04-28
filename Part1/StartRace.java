@@ -4,9 +4,9 @@ public class StartRace {
     public static void main(String[] args) {
         Race myRace = new Race(30); // Race of length 30
 
-        Horse h1 = new Horse('♘', "PIPPI LONGSTOCKING", 0.8);
-        Horse h2 = new Horse('♕', "KOKOMO", 0.4);
-        Horse h3 = new Horse('♤', "EL JEFE", 0.6);
+        Horse h1 = new Horse('\u2658', "PIPPI LONGSTOCKING", 0.8);
+        Horse h2 = new Horse('\u2655', "KOKOMO", 0.4);
+        Horse h3 = new Horse('\u2660', "EL JEFE", 0.6);
 
         myRace.addHorse(h1, 1);
         myRace.addHorse(h2, 2);
@@ -15,3 +15,5 @@ public class StartRace {
         myRace.startRace();
     }
 }
+
+

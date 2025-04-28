@@ -155,9 +155,9 @@ public class HorseGUI
     public void setEquipment(String equipment) {
 
         Map<String, String> equipmentSymbolMap = new HashMap<>();
-        equipmentSymbolMap.put("Saddle", "𐚁");
+        equipmentSymbolMap.put("Saddle", "𓂬");
         equipmentSymbolMap.put("Horseshoe", "℧");
-        equipmentSymbolMap.put("Hat", "𓂬");
+        equipmentSymbolMap.put("Hat", "𐚁");
         
         // Update the symbol based on the selected equipment
         this.equipment = equipmentSymbolMap.getOrDefault(equipment, "");

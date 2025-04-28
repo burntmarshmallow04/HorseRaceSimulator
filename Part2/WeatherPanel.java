@@ -1,7 +1,6 @@
 package Part2;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class WeatherPanel extends JPanel {
     private JLabel weatherLabel;
