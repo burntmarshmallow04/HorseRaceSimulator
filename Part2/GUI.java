@@ -2,7 +2,6 @@ package Part2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class GUI {
     private final JFrame frame;
@@ -10,10 +9,8 @@ public class GUI {
 
     private final HorseGUI[] horses = new HorseGUI[4];
     private String selectedTrackShape;
-
     private RaceGUI race;
-    private Timer raceTimer;
-
+    
     public GUI() {
         frame = new JFrame("Horse Race Simulator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,6 +46,7 @@ public class GUI {
         nextButton.addActionListener(e -> {
             // Get the track customisation details
             String trackShape = trackCustomisationPanel.getTrackShape();
+            String selectedWeather = weatherPanel.getWeatherCondition();
             int laneCount = trackCustomisationPanel.getLaneCount();
             selectedTrackShape = trackShape;
     
@@ -58,7 +56,7 @@ public class GUI {
             frame.repaint();
     
             // Call Race Customisation with the lane count dynamically updated
-            RaceCustomisation(laneCount);
+            RaceCustomisation(laneCount, selectedWeather);
         });
     
         // Add the panel to the frame and refresh the display
@@ -68,7 +66,7 @@ public class GUI {
         frame.setVisible(true);
     }
 
-    public void RaceCustomisation(int laneCount) {
+    public void RaceCustomisation(int laneCount, String selectedWeather) {
         frame.getContentPane().removeAll();  // Clear the current panel (if any)
         frame.repaint();
     
@@ -114,7 +112,7 @@ public class GUI {
             frame.revalidate();
             frame.repaint();
 
-            setupRacePanel(laneCount);
+            setupRacePanel(laneCount, selectedWeather);
         });
 
         // Add the panel to the frame and refresh the display
@@ -123,8 +121,8 @@ public class GUI {
         frame.repaint();
     }
 
-    private void setupRacePanel(int laneCount) {
-        race = new RaceGUI(frame,50, laneCount);  // Example race length of 1000
+    private void setupRacePanel(int laneCount, String selectedWeather) {
+        race = new RaceGUI(frame,50, laneCount, selectedWeather);  // Example race length of 1000
         for (int i = 0; i < laneCount; i++) {
             race.addHorse(horses[i]);  // Add each horse to the RaceGUI
         }

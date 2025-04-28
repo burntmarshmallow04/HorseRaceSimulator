@@ -16,6 +16,8 @@ public class HorseGUI
     private double confidence;
     private boolean fallen;
     private String equipment;
+    private double finishTime;
+    private int wins;
 
     private HorseStatistics stats;
 
@@ -32,6 +34,8 @@ public class HorseGUI
         this.fallen = false;
         this.stats = new HorseStatistics();
         this.equipment = horseEquipment;
+        this.finishTime = 0.0;
+        this.wins = 0;
     }
     
 
@@ -78,6 +82,27 @@ public class HorseGUI
     public String getEquipment() {
         return equipment;
     }
+
+    public double getSpeed() {
+        if (finishTime == 0) {
+            return 0.0; 
+        }
+        return distance/(finishTime/1000.0); // Assuming time is in seconds
+    }
+
+    // Return the finishing time
+    public double getFinishTime() {
+        return finishTime;
+    }
+
+    // Increment the wins counter when the horse wins a race
+    public void incrementWins() {
+        this.wins++;
+    }
+
+    public int getWins() {
+        return wins;
+    }
     
     public void goBackToStart()
     {
@@ -119,6 +144,14 @@ public class HorseGUI
 
     public void setDistanceTravelled(int distanceTravelled) {
         this.distance = distanceTravelled;
+    }
+
+    public void setFinishTime(double finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public void setFallen(boolean fallen) {
+        this.fallen = fallen;
     }
 
     public HorseStatistics getStats() {
