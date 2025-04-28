@@ -28,18 +28,18 @@ public class RaceGUI {
         //wether and lane panel
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        centerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
     
         //weather label
         weatherLabel = new JLabel("Weather: " + getWeatherIcon(), SwingConstants.CENTER);
         weatherLabel.setFont(new Font("Arial", Font.PLAIN, 18)); // Big emoji
         centerPanel.add(weatherLabel);
-        centerPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        centerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         //lane panel
         for (int i = 0; i < numHorses; i++) {
             JLabel laneLabel = new JLabel("Lane " + (i + 1) + ": ");
-            laneLabel.setFont(new Font("Arial", Font.PLAIN, 17));
+            laneLabel.setFont(new Font("Arial", Font.PLAIN, 18));
             laneLabels.add(laneLabel);
             centerPanel.add(laneLabel);
         }
@@ -155,9 +155,9 @@ public class RaceGUI {
             laneDisplay.append(" ");
         }
         if (horse.hasFallen()) {
-            laneDisplay.append("⛌");
+            laneDisplay.append("[" + horse.getBreed().charAt(0) + horse.getEquipment() + "]  " + "⛌");
         } else {
-            laneDisplay.append(horse.getSymbol());
+            laneDisplay.append("[" + horse.getBreed().charAt(0) + horse.getEquipment() + "]  " + horse.getSymbol());
         }
         for (int i = horse.getDistanceTravelled(); i < raceLength; i++) {
             laneDisplay.append(" ");
@@ -231,7 +231,7 @@ public class RaceGUI {
             stats.append(horse.getName()).append(":\n")
                 .append("Average Speed: ").append(String.format("%.2f", speed)).append(" m/s\n")
                 .append("Finish Time: ").append(String.format("%.2f", finishTime / 1000.0)).append(" seconds\n") // if time is in ms
-                .append("Wins: ").append((int)wins).append("\n\n")
+                .append("Wins: ").append((int)wins).append("\n")
                 .append("Win Rate: ").append(String.format("%.2f", (wins / horses.size()) * 100)).append("%\n\n");
         }
     

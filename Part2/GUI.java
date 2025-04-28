@@ -6,8 +6,7 @@ import java.awt.*;
 public class GUI {
     private final JFrame frame;
     private final JPanel panel;
-
-    private final HorseGUI[] horses = new HorseGUI[4];
+    private HorseGUI[] horses;
     private String selectedTrackShape;
     private RaceGUI race;
     
@@ -46,7 +45,7 @@ public class GUI {
         nextButton.addActionListener(e -> {
             // Get the track customisation details
             String trackShape = trackCustomisationPanel.getTrackShape();
-            String selectedWeather = weatherPanel.getWeatherCondition();
+            String selectedWeather = weatherPanel.getWeather();
             int laneCount = trackCustomisationPanel.getLaneCount();
             selectedTrackShape = trackShape;
     
@@ -70,6 +69,8 @@ public class GUI {
         frame.getContentPane().removeAll();  // Clear the current panel (if any)
         frame.repaint();
     
+        horses = new HorseGUI[laneCount];
+
         // Clear and set up the main panel for horse customization only
         panel.removeAll();
         panel.setLayout(new BorderLayout()); 

@@ -2,9 +2,11 @@ package Part2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class HorseCustomisationPanel extends JPanel {
-    private JComboBox<String> horseNameList;
+    private JTextField horseNameField;    
     private JComboBox<String> symbolList;
     private JComboBox<String> breedList;
     private JComboBox<String> equipmentList;
@@ -25,10 +27,8 @@ public class HorseCustomisationPanel extends JPanel {
         horseNameLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         field1Panel.add(horseNameLabel);
 
-        horseNameList = new JComboBox<>(new String[] {"PIPPI LOCKSTOCKING", "EL JEFE", "KOKOMO"});
-        horseNameList.setSelectedItem("PIPPI LOCKSTOCKING");
-        field1Panel.add(horseNameList);
-
+        horseNameField = new JTextField("PIPPI LOCKSTOCKING", 20);
+        field1Panel.add(horseNameField);
 
         //symbol
         JPanel field2Panel = new JPanel();
@@ -38,7 +38,7 @@ public class HorseCustomisationPanel extends JPanel {
         symbolLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         field2Panel.add(symbolLabel);
 
-        symbolList = new JComboBox<>(new String[] {"\u2658", "\u265E", "\u1F434"});
+        symbolList = new JComboBox<>(new String[] {"\u2658", "\u265E", "\u2655", "\u265B", "\u2654"});
         symbolList.setSelectedItem("\u2658");
         field2Panel.add(symbolList);
 
@@ -79,7 +79,7 @@ public class HorseCustomisationPanel extends JPanel {
     }
 
     public String getHorseName() {
-        return (String) horseNameList.getSelectedItem();
+        return horseNameField.getText();
     }
 
     public String getHorseSymbol() {

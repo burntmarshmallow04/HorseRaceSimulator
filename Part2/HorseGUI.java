@@ -1,5 +1,8 @@
 package Part2;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Write a description of class Horse here.
  * 
@@ -18,6 +21,8 @@ public class HorseGUI
     private String equipment;
     private double finishTime;
     private int wins;
+    private double speed;
+
 
     private HorseStatistics stats;
 
@@ -33,9 +38,23 @@ public class HorseGUI
         this.distance = 0;
         this.fallen = false;
         this.stats = new HorseStatistics();
-        this.equipment = horseEquipment;
+        setEquipment(horseEquipment);
         this.finishTime = 0.0;
         this.wins = 0;
+        setBreedSpeed();
+    }
+
+    private void setBreedSpeed() {
+        // Define breed-to-speed mappings using a HashMap
+        Map<String, Double> breedSpeedMap = new HashMap<>();
+        breedSpeedMap.put("Thoroughbred", 12.5);
+        breedSpeedMap.put("Arabian", 11.0);
+        breedSpeedMap.put("Quarter Horse", 10.5);
+        breedSpeedMap.put("Standardbred", 10.0);  // Example for another breed
+        breedSpeedMap.put("Mongolian", 9.5);  // Another example breed
+
+        // Set the horse's speed based on the breed
+        this.speed = breedSpeedMap.getOrDefault(breed, 10.0);  // Default speed if breed is not found
     }
     
 
@@ -134,7 +153,14 @@ public class HorseGUI
     // }
     
     public void setEquipment(String equipment) {
-        this.equipment = equipment;
+
+        Map<String, String> equipmentSymbolMap = new HashMap<>();
+        equipmentSymbolMap.put("Saddle", "𐚁");
+        equipmentSymbolMap.put("Horseshoe", "℧");
+        equipmentSymbolMap.put("Hat", "𓂬");
+        
+        // Update the symbol based on the selected equipment
+        this.equipment = equipmentSymbolMap.getOrDefault(equipment, "");
     }
     
 
